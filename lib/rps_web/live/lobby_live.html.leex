@@ -1,0 +1,50 @@
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th>Host</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {user_id, _, user} <- @rooms do %>
+      <tr>
+        <td><%= user %></td>
+        <td>
+          <div class="float-right">
+            <%= link "Join Room", to: Routes.live_path(@socket, RPSWeb.PlayLive, %{"room" => user_id}), class: "button", style:  "width:165px; margin-top:7px;" %>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= if @rooms == [] do %>
+  <div class="row">
+    <div class="column center">
+      <div class="loader">Loading...</div>
+      <center>
+        <h4>Waiting for rooms...</h4>
+      </center>
+    </div>
+  </div>
+  <% end %>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Rounds Won</th>
+        <th>Rounds Played</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for {username, rounds_won, rounds_played, _} <- @stats do %>
+      <tr>
+        <td><%= username %></td>
+        <td><%= rounds_won %></td>
+        <td><%= rounds_played %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

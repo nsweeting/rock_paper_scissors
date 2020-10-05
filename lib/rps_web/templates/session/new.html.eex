@@ -1,0 +1,11 @@
+<%= f = form_for :login, "#" %>
+  <%= label f, :username %>
+  <%= text_input f, :username %>
+  <%= error_tag f, :username %>
+
+  <%= label f, :password %>
+  <%= password_input f, :password %>
+  <%= error_tag f, :password %>
+
+  <%= submit "Login" %>
+</form>

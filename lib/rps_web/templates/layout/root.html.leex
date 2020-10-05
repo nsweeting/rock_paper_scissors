@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <%= csrf_meta_tag() %>
+  <%= live_title_tag assigns[:page_title] || "RPS", suffix: " · Phoenix Framework" %>
+  <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+  <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+</head>
+
+<body>
+  <div class="container" style="padding-bottom:30px;">
+    <div class="row">
+      <%= if @conn.assigns[:current_user] do %>
+      <div class="column">
+        <div class="float-left">
+          <%= link "Start Game", to: Routes.live_path(@conn, RPSWeb.PlayLive), class: "button", style:  "width:165px" %>
+        </div>
+      </div>
+      <div class="column">
+        <center>
+          <%= link "Lobby", to: Routes.live_path(@conn, RPSWeb.LobbyLive), class: "button", style:  "width:165px" %>
+        </center>
+      </div>
+      <div class="column">
+        <div class="float-right">
+          <%= link "Logout", to: Routes.session_path(@conn, :delete), class: "button", style:  "width:165px"%>
+        </div>
+      </div>
+      <% else %>
+      <div class="column">
+        <div class="float-left">
+          <%= link "Signup", to: Routes.user_path(@conn, :new), class: "button", style:  "width:165px" %>
+        </div>
+      </div>
+      <div class="column">
+        <div class="float-right">
+          <%= link "Login", to: Routes.session_path(@conn, :new), class: "button", style:  "width:165px"%>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <%= @inner_content %>
+</body>
+
+</html>

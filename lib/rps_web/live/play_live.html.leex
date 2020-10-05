@@ -1,0 +1,103 @@
+<div class="container">
+    <%= if @status == :waiting do %>
+    <div class="row">
+        <div class="column center">
+            <div class="loader">Loading...</div>
+            <center>
+                <h4>Waiting for opponent...</h4>
+            </center>
+        </div>
+    </div>
+    <% end %>
+    <%= if @status in [:playing, :complete] do %>
+    <div class="row">
+        <div class="column">
+            <center>
+                <h3>Countdown: <%= @countdown || "None" %></h3>
+            </center>
+            <center>
+                <h3 style="text-transform: capitalize;">Current Hand: <%= @current_hand || "None" %></h3>
+            </center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <center>
+                <button phx-click="play_rock" style="width:200px" <%= @buttons %>>Play Rock</button>
+            </center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column center">
+            <center>
+                <button phx-click="play_paper" style="width:200px" <%= @buttons %>>Play Paper</button>
+            </center>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column center">
+            <center>
+                <button phx-click="play_scissors" style="width:200px" <%= @buttons %>>Play Scissors</button>
+            </center>
+        </div>
+    </div>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Round</th>
+                <th><%= @room_info.p1.user.username %></th>
+                <th><%= @room_info.p2.user.username %></th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%= for result <- @room_info.results do %>
+            <tr>
+                <td><%= result.round_count %></td>
+                <td style="text-transform: capitalize;"><%= result.p1_hand %></td>
+                <td style="text-transform: capitalize;"><%= result.p2_hand %></td>
+                <td>
+                    <%= if result.winner == :draw do %>
+                    Draw
+                    <% else %>
+                    <%= result.winner.user.username %> won
+                    <% end %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% end %>
+    <%= if @status == :complete do %>
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Wins</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%= for {player, wins} <- @final_results do %>
+            <tr>
+                <td><%= player.user.username %></td>
+                <td><%= wins %></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="column">
+            <center>
+                <h3>
+                    <%= if @final_winner do %>
+                    <%= @final_winner.user.username %> wins
+                    <% else %>
+                    No winner
+                    <% end %>
+                </h3>
+            </center>
+        </div>
+    </div>
+    <% end %>
+</div>
